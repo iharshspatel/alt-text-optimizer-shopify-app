@@ -5,7 +5,7 @@
  * `FreshInstall()` in isInitialLoad function.
  *
  */
-import StoreModel from "./models/storeMode.js";
+import StoreModel from "./models/storeModel.js";
 
 const freshInstall = async ({ shop }) => {
   console.log("This is a fresh install - run functions");

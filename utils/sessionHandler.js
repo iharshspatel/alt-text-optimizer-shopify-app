@@ -1,6 +1,6 @@
 import { Session } from "@shopify/shopify-api";
 import Cryptr from "cryptr";
-import SessionModel from "./models/SessionModel.js";
+import SessionModel from "./models/sessionModel.js";
 
 const cryption = new Cryptr(process.env.ENCRYPTION_STRING);
 

@@ -1,8 +1,8 @@
 import { Router } from "express";
 import clientProvider from "../../utils/clientProvider.js";
 import TemplateModel from "../../utils/models/templateModel.js";
-import ProductLog from "../../utils/models/ProductLogModel.js";
-import Queue from "../../utils/models/QueueModel.js";
+import ProductLog from "../../utils/models/productLogModel.js";
+import Queue from "../../utils/models/queueModel.js";
 
 const userRoutes = Router();
 

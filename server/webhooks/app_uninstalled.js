@@ -1,4 +1,4 @@
-import SessionModel from "../../utils/models/SessionModel.js";
+import SessionModel from "../../utils/models/sessionModel.js";
 import StoreModel from "../../utils/models/StoreModel.js";
 
 /**

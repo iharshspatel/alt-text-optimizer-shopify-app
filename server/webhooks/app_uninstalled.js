@@ -1,5 +1,5 @@
 import SessionModel from "../../utils/models/sessionModel.js";
-import StoreModel from "../../utils/models/StoreModel.js";
+import StoreModel from "../../utils/models/storeMode.js";
 
 /**
  * @typedef { import("../../_developer/types/2024-07/webhooks.js").APP_UNINSTALLED } webhookTopic

@@ -1,5 +1,5 @@
 import { RequestedTokenType } from "@shopify/shopify-api";
-import StoreModel from "../../utils/models/StoreModel.js";
+import StoreModel from "../../utils/models/storeMode.js";
 import sessionHandler from "../../utils/sessionHandler.js";
 import shopify from "../../utils/shopify.js";
 import freshInstall from "../../utils/freshInstall.js";

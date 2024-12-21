@@ -11,6 +11,18 @@ const templates = [
     value: "[product_title]",
     id: 3,
   },
+  {
+    value: "[product_title] [variant_title]",
+    id: 4,
+  },
+  {
+    value: "[product_title] [variant_sku]",
+    id: 5,
+  },
+  {
+    value: "custom",
+    id: 5,
+  },
 ];
 
 export { templates };

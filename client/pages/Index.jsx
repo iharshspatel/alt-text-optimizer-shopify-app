@@ -11,6 +11,7 @@ import {
   RadioButton,
   Text,
   TextContainer,
+  TextField,
 } from "@shopify/polaris";
 
 import { navigate } from "raviger";
@@ -19,11 +20,34 @@ import { useCallback, useEffect, useState } from "react";
 
 const HomePage = () => {
   const [template, setTemplate] = useState("");
+  const [customTemplate, setCustomTemplate] = useState("");
   const [templateSaved, setTemplateSaved] = useState(false);
   const [templateSaving, setTemplateSaving] = useState(false);
+  const [customTemplateError, setCustomTemplateError] = useState("");
   const [isOptimizationInProgress, setIsOptimizationInProgress] =
     useState(false);
   const [active, setActive] = useState(false);
+
+  const allowedPlaceholders = [
+    "[product_title]",
+    "[product_type]",
+    "[product_vendor]",
+    "[product_handle]",
+    "[variant_title]",
+    "[variant_sku]",
+  ];
+
+  const validateCustomTemplate = (template) => {
+    const normalizedTemplate = template.trim().replace(/\s+/g, " ");
+    const placeholderPattern = allowedPlaceholders.map(escapeRegex).join("|");
+    const regex = new RegExp(
+      `^(${placeholderPattern})( (${placeholderPattern}))*$`
+    );
+    return regex.test(normalizedTemplate);
+  };
+
+  // Escape placeholders for regex
+  const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
   const handleModalChange = useCallback(() => setActive(!active), [active]);
 
@@ -44,6 +68,18 @@ const HomePage = () => {
     setTemplateSaved(false);
     setTemplate(newValue);
   }, []);
+
+  const handleCustomTemplateChange = (newValue) => {
+    if (!validateCustomTemplate(newValue)) {
+      setCustomTemplateError(
+        "Invalid template format. Use only allowed variables."
+      );
+    } else {
+      setCustomTemplateError(""); // Clear the error if the template is valid
+    }
+
+    setCustomTemplate(newValue);
+  };
 
   useEffect(() => {
     //get template
@@ -76,6 +112,16 @@ const HomePage = () => {
   const submitTemplate = useCallback(async () => {
     try {
       setTemplateSaving(true);
+
+      if (template === "custom" && validateCustomTemplate(customTemplate)) {
+        console.log("custom template inside submitting", customTemplate);
+        body.template = customTemplate;
+      }
+
+      if (template === "custom" && !validateCustomTemplate(customTemplate)) {
+        alert("Invalid template format. Use only allowed variables.");
+        return;
+      }
       const data = await (
         await fetch("/api/apps/saveTemplate", {
           headers: {
@@ -83,7 +129,7 @@ const HomePage = () => {
             "Content-Type": "application/json",
           },
           method: "POST",
-          body: JSON.stringify({ template: template }),
+          body: JSON.stringify(body),
         })
       ).json();
       setTemplateSaved(true);
@@ -92,11 +138,21 @@ const HomePage = () => {
     } finally {
       setTemplateSaving(false);
     }
-  }, [template, templateSaved, templateSaving]);
+  }, [template, templateSaved, templateSaving, customTemplate]);
 
   const optimizeImageHandler = useCallback(async () => {
     try {
       setIsOptimizationInProgress(true);
+
+      const body = {
+        template: template,
+      };
+
+      if (template === "custom" && validateCustomTemplate(customTemplate)) {
+        console.log("custom template", customTemplate);
+        body.template = customTemplate;
+      }
+
       const data = await (
         await fetch("/api/apps/optimizeAltText", {
           headers: {
@@ -104,7 +160,7 @@ const HomePage = () => {
             "Content-Type": "application/json",
           },
           method: "POST",
-          body: JSON.stringify({ template: template }),
+          body: JSON.stringify(body),
         })
       ).json();
     } catch (e) {
@@ -112,7 +168,7 @@ const HomePage = () => {
     } finally {
       setActive(false);
     }
-  }, [template, templateSaved, templateSaving]);
+  }, [template, templateSaved, templateSaving, customTemplate]);
 
   return (
     <>
@@ -151,6 +207,15 @@ const HomePage = () => {
                       onChange={handleChange}
                     />
                   ))}
+
+                  {template === "custom" && (
+                    <TextField
+                      type="text"
+                      value={customTemplate}
+                      onChange={handleCustomTemplateChange}
+                      error={customTemplateError}
+                    />
+                  )}
                 </FormLayout>
 
                 <InlineStack wrap={false} gap="400" align="end">

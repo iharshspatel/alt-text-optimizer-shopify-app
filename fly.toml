@@ -1,0 +1,41 @@
+# fly.toml app configuration file generated for image-alt-text-optimizer on 2024-11-19T22:33:26+05:30
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'image-alt-text-optimizer'
+primary_region = 'ams'
+
+[build]
+
+[http_service]
+  internal_port = 3000
+  force_https = true
+  auto_stop_machines = 'stop'
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ['app']
+
+[[vm]]
+  memory = '1gb'
+  cpu_kind = 'shared'
+  cpus = 1
+
+[env]
+  SHOPIFY_API_KEY = "05f11c2744d150d6176a9321c4eddb96"
+  SHOPIFY_API_SECRET = "f6ad7f9fe27d11a1a4db3b6d27519e75"
+  SHOPIFY_API_SCOPES = "read_products,write_products"
+  SHOPIFY_APP_URL = "https://image-alt-text-optimizer.fly.dev"
+  SHOPIFY_API_VERSION = "2024-10"
+  MONGO_URL = "mongodb+srv://harsh1722patel:MceonAddqebSl7Hu@cluster0.hoxor9v.mongodb.net/"
+  ENCRYPTION_STRING = "THISISTHEENCRYPTION_STRINGLKJSDLSKJFSDKFLJSDLF"
+  NPM_CONFIG_FORCE = "true"
+  PORT = "3000"
+  VITE_SHOPIFY_API_KEY = "05f11c2744d150d6176a9321c4eddb96"
+  APP_NAME = "Image Alt Text Generator"
+  APP_HANDLE = "image-alt-text-generator-4"
+  APP_PROXY_PREFIX = "apps"
+  APP_PROXY_SUBPATH = ""
+  POS_EMBEDDED = "false"
+  DIRECT_API_MODE = ""
+  EMBEDDED_APP_DIRECT_API_ACCESS = ""

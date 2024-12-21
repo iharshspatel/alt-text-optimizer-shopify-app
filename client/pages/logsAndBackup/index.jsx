@@ -52,25 +52,23 @@ function LogsAndBackup() {
   };
 
   const rollbackHandler = async () => {
-      try {
-        console.log("This is rollback handlerd.......")
-        const data = await (
-          await fetch("/api/apps/revertAltText", {
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-            },
-            method: "POST",
-            body: JSON.stringify({}),
-          })
-        ).json();
-      } catch (e) {
-        console.log(e.message);
-      } finally {
-        console.log("THis is false.....")
-        setActive(false);
-      }
-    };
+    try {
+      const data = await (
+        await fetch("/api/apps/revertAltText", {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          method: "POST",
+          body: JSON.stringify({}),
+        })
+      ).json();
+    } catch (e) {
+      console.log(e.message);
+    } finally {
+      setActive(false);
+    }
+  };
 
   const rowMarkup = logs.map(
     ({ productId, mediaId, oldAltText, newAltText }, index) => (
